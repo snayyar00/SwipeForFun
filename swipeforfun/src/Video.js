@@ -1,13 +1,35 @@
-import React from "react";
+import React ,{useRef,useState} from "react";
 import "./Video.css";
-
-function Video() {
+import VideoFooter from "./VideoFooter"
+import VideoSidebar from "./VideoSidebar";
+function Video({url,channel,description,song,likes,shares,messages}) {
+  const [playing,setPlaying] =useState(false);
+  const videoRef = useRef(null);
+  const onVideoPress= () =>{
+    if(playing){
+      videoRef.current.pause();
+      setPlaying(false);
+    }
+    else{
+      videoRef.current.play();
+      setPlaying(true);
+    }
+  };
   return (
     <div className="video">
-      <video src="https://www.tiktok.com/@anji_t/video/6834195979168763141?lang=en"></video>
-      {/* videoFooter */}
-      {/* videoSidebar */}
+      
+      <video 
+      className="video_player"  
+      loop
+      controls
+      ref={videoRef}
+      onClick = {onVideoPress}
+      src={url}/>
+     <VideoFooter channel={channel} description={description} song={song} />
+      <VideoSidebar likes={likes} shares={shares} messages={messages} />
     </div>
+    
+
   );
 }
 
